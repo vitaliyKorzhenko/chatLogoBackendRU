@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import TeacherHelper from '../helpers/teacherHelper';
+import { defaultSource } from '../sourceHelper';
 require('dotenv').config();
 const router = express.Router();
 
@@ -89,7 +90,7 @@ router.post('/teacher/email', async (req: Request, res: Response) => {
   }
 
   try {
-    const teacher = await TeacherHelper.findTeacherByEmail(email);
+    const teacher = await TeacherHelper.findTeacherByEmail(defaultSource, email);
     if (!teacher) {
       return res.status(200).json(null);
     }
@@ -111,7 +112,7 @@ router.post('/teacher/info', async (req: Request, res: Response) => {
   }
 
   try {
-    const teacher = await TeacherHelper.findTeacherInfoWithCustomersByEmail(email);
+    const teacher = await TeacherHelper.findTeacherInfoWithCustomersByEmail(defaultSource, email);
     if (!teacher) {
       return res.status(404).json({ message: 'Teacher not found' });
     }
